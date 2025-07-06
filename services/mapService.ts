@@ -70,7 +70,7 @@ class MapService {
     }
     
     // For native platforms, we need an absolute URL
-    return 'http://localhost:8081';
+    return 'http://localhost:3000';
   }
 
   // Get venues within a specific area with real-time busyness
@@ -147,6 +147,16 @@ class MapService {
               } else {
                 const textError = await response.text();
                 console.error(`❌ Non-JSON error response for ${type}:`, textError.substring(0, 200) + '...');
+                
+                // If we get HTML, it means the API route isn't working
+                if (textError.includes('<!DOCTYPE html>')) {
+                  console.error('🚨 CRITICAL: API route not found or not configured properly!');
+                  console.error('📋 This usually means:');
+                  console.error('   1. The Expo server is not configured for API routes');
+                  console.error('   2. Add "web": { "output": "server" } to your app.json');
+                  console.error('   3. Restart your development server completely');
+                  console.error('   4. Ensure your .env file has the correct API keys');
+                }
               }
             } catch (parseError) {
               console.error(`❌ Could not parse error response for ${type}:`, parseError);
@@ -161,6 +171,16 @@ class MapService {
             try {
               const responseText = await response.text();
               console.error(`❌ Response content for ${type}:`, responseText.substring(0, 200) + '...');
+              
+              // If we get HTML, it means the API route isn't working
+              if (responseText.includes('<!DOCTYPE html>')) {
+                console.error('🚨 CRITICAL: API route not found or not configured properly!');
+                console.error('📋 This usually means:');
+                console.error('   1. The Expo server is not configured for API routes');
+                console.error('   2. Add "web": { "output": "server" } to your app.json');
+                console.error('   3. Restart your development server completely');
+                console.error('   4. Ensure your .env file has the correct API keys');
+              }
             } catch (readError) {
               console.error(`❌ Could not read response content for ${type}:`, readError);
             }
