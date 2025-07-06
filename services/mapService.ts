@@ -70,7 +70,7 @@ class MapService {
     }
     
     // For native platforms, we need an absolute URL
-    return 'http://localhost:3000';
+    return 'http://localhost:8081';
   }
 
   // Get venues within a specific area with real-time busyness
